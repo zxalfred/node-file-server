@@ -3,9 +3,12 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const multer = require('multer');
 
+const upload = multer({ dest: path.join(__dirname, './public/photos') });
 const indexRouter = require('./routes/index');
-const photosRouter = require('./routes/photo');
+const photosRouter = require('./routes/photos');
+const photoService = require('./public/javascripts/photoService');
 
 const app = express();
 
@@ -22,6 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/photos/', photosRouter);
+
+app.get('/upload', photoService.form);
+app.post('/upload', upload.single('avatar'), photoService.submit(app.get('photos')));
+app.get('/photo/:id/download', photoService.download(app.get('photos')));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
