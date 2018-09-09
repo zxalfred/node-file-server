@@ -1,5 +1,5 @@
 # expressFile
-> Use node express for http server to upload, display and download picture
+> Use node express as http server to upload, display and download picture
 
 ## Technology Stack
   * Node.js
